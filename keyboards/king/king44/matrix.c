@@ -215,7 +215,6 @@ __attribute__((weak)) void matrix_read_cols_on_row(matrix_row_t current_matrix[]
     if (!select_row(current_row)) { // Select row
         return;                     // skip NO_PIN row
     }
-    matrix_init_cols_pins();
     matrix_output_select_delay();
 
     // For each col...

@@ -1,12 +1,10 @@
 {
-    "url": "https://github.com/idank/king44",
+    "url": "https://github.com/superami-code/king44",
     "maintainer": "King",
     "keyboard_name": "King44",
     "manufacturer": "King",
     "processor": "RP2040",
     "bootloader": "rp2040",
-    "width": 12,
-    "height": 4,
     "usb": {
         "vid": "0xC3AC",
         "pid": "0x3144",
@@ -21,6 +19,8 @@
         "mousekey": true,
         "nkro": true,
         "rgblight": true,
+        "oled": true,
+        "haptic": true,
         "raw": false
     },
     "rgblight": {

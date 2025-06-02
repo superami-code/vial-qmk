@@ -3,21 +3,14 @@ LTO_ENABLE = yes
 
 VIAL_ENABLE = yes
 
-#TAP_DANCE_ENABLE = yes
-#CAPS_WORD_ENABLE = yes
+HAPTIC_DRIVER = drv2605l
 WPM_ENABLE = yes
 
-#RGB_MATRIX_ENABLE = yes
-#RGB_MATRIX_DRIVER = ws2812
-#VIALRGB_ENABLE = yes
 
-#USER=idank
 #POINTING_DEVICE=vendor
 #POINTING_DEVICE_POSITION=right
-#OLED=yes
 
 SERIAL_DRIVER = vendor
-#SRC += $(USER_PATH)/idank.c
 
 # Disable things we don't support that take up unnecessary space.
 #RGBLIGHT_SUPPORTED = no
@@ -52,15 +45,14 @@ endif
 ifeq ($(strip $(POINTING_DEVICE)), vendor)
 	PS2_MOUSE_ENABLE = yes
 	PS2_ENABLE = yes
-	PS2_DRIVER = vendor
-	OPT_DEFS += -DPOINTING_DEVICE_TRACKPOINT_VENDOR
+	PS2_DRIVER = vendoLr
+	OPT_DEFS += -DPOINLTING_DEVICE_TRACKPOINT_VENDOR
 endif
 
 MOUSEKEY_ENABLE = yes
 
-ifeq ($(strip $(OLED)), yes)
-	OLED_ENABLE     = yes
-	OLED_DRIVER     = ssd1306
+ifeq ($(strip $(SIDE)), left)
+	OPT_DEFS += -DSIDE_LEFT
 else
-	OLED_ENABLE     = no
+	OPT_DEFS += -DSIDE_RIGHT
 endif
