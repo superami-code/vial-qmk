@@ -11,7 +11,7 @@
 #endif
 //#define SPLIT_ST7565_ENABLE
 //#define SPLIT_POINTING_ENABLE
-//#define SPLIT_HAPTIC_ENABLE // we do this explicitly based on state
+#define SPLIT_HAPTIC_ENABLE // we do this explicitly based on state
 #define SPLIT_ACTIVITY_ENABLE
 
 #undef MASTER_LEFT
