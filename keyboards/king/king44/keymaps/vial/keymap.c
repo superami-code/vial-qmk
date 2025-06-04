@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include QMK_KEYBOARD_H
+#include "../../config/pointing.h"
+
 #ifdef HAPTIC_ENABLE
 #include "drivers/haptic/drv2605l.h"
 #endif
@@ -34,12 +36,8 @@ enum {
 #define KC_RCTRL    KC_RCTL
 #define KC_SCOLON   KC_SCLN
 
-#ifdef POINTING_DEVICE_TRACKPOINT_VENDOR
+#if PS2_MOUSE_ADJUST
 #include "ps2_mouse.h"
-#define PS2_MOUSE_L_MULTIPLIER 8
-#define PS2_MOUSE_R_MULTIPLIER 5
-#define PS2_MOUSE_U_MULTIPLIER 5
-#define PS2_MOUSE_D_MULTIPLIER 5
 
 void ps2_mouse_moved_user(report_mouse_t *mouse_report) {
   // Moving left.
