@@ -88,8 +88,7 @@ void ps2_mouse_task(void) {
 #    endif
     } else {
         if (debug_mouse) print("ps2_mouse: fail to get mouse packet\n");
-        /* return here to avoid updating the mouse button state */
-        return;
+        /* King 44 changes, returning here breaks mouse buttons when trackpoint not moving */
     }
 #else
     if (pbuf_has_data()) {
@@ -101,8 +100,7 @@ void ps2_mouse_task(void) {
 #    endif
     } else {
         if (debug_mouse) print("ps2_mouse: fail to get mouse packet\n");
-        /* return here to avoid updating the mouse button state */
-        return;
+        /* King 44 changes, returning here breaks mouse buttons when trackpoint not moving */
     }
 #endif
 
