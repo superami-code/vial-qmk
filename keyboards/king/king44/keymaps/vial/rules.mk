@@ -26,15 +26,6 @@ else
 	OPT_DEFS += -DPOINTING_DEVICE_POSITION_RIGHT
 endif
 
-ifeq ($(strip $(POINTING_DEVICE)), trackball)
-	POINTING_DEVICE_ENABLE = yes
-	POINTING_DEVICE_DRIVER = pimoroni_trackball
-
-	ifeq ($(strip $(TRACKBALL_RGB_RAINBOW)), yes)
-		SRC += quantum/color.c $(USER_PATH)/trackball_rgb_rainbow.c
-	endif
-endif
-
 ifeq ($(strip $(POINTING_DEVICE)), trackpoint)
 	PS2_MOUSE_ENABLE = yes
 	PS2_ENABLE = yes
@@ -45,11 +36,9 @@ endif
 ifeq ($(strip $(POINTING_DEVICE)), vendor)
 	PS2_MOUSE_ENABLE = yes
 	PS2_ENABLE = yes
-	PS2_DRIVER = vendoLr
-	OPT_DEFS += -DPOINLTING_DEVICE_TRACKPOINT_VENDOR
+	PS2_DRIVER = vendor
+	OPT_DEFS += -DPOINTING_DEVICE_TRACKPOINT_VENDOR
 endif
-
-MOUSEKEY_ENABLE = yes
 
 ifeq ($(strip $(SIDE)), left)
 	OPT_DEFS += -DSIDE_LEFT
