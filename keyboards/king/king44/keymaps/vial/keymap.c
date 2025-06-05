@@ -41,6 +41,12 @@ void keyboard_pre_init_user(void) {
 #if (defined HSV_WHITE) || (defined HAPTIC_ENABLE)
 uint8_t last_layer = 255;
 
+void layer_effect_hsv(uint8_t h, uint8_t s, uint8_t v) {
+#ifdef HSV_WHITE
+    rgblight_sethsv(h,s,v);
+#endif
+}
+
 void layer_effect_haptic(const uint8_t haptic) {
 #ifdef HAPTIC_ENABLE
     drv2605l_pulse(haptic);
@@ -48,6 +54,7 @@ void layer_effect_haptic(const uint8_t haptic) {
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
+#ifdef RGBLIGHT_LAYERS
     rgblight_set_layer_state(_ALPHA, layer_state_cmp(state, _ALPHA));
     rgblight_set_layer_state(_GAMING, layer_state_cmp(state, _GAMING));
     rgblight_set_layer_state(_GAMING2, layer_state_cmp(state, _GAMING2));
@@ -58,45 +65,55 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     rgblight_set_layer_state(_NUMBERS, layer_state_cmp(state, _NUMBERS));
     rgblight_set_layer_state(_FUNC, layer_state_cmp(state, _FUNC));
     rgblight_set_layer_state(_105_KEYS, layer_state_cmp(state, _105_KEYS));
+#endif
 
     uint8_t current_layer = get_highest_layer(state);
     if (last_layer != current_layer) {
         last_layer = current_layer;
         switch (get_highest_layer(state)) {
             case _NUMBERS:
+                layer_effect_hsv(HSV_WHITE);
                 layer_effect_haptic(DRV2605L_EFFECT_SOFT_BUMP_100);
                 break;
 
             case _FUNC:
+                layer_effect_hsv(HSV_RED);
                 layer_effect_haptic(DRV2605L_EFFECT_STRONG_CLICK_1_100);//DRV2605L_EFFECT_SHORT_DOUBLE_SHARP_TICK_1_100);
                 break;
 
             case _105_KEYS:
+                layer_effect_hsv(HSV_GREEN);
                 layer_effect_haptic(DRV2605L_EFFECT_LONG_DOUBLE_SHARP_CLICK_STRONG_1_100);
                 break;
 
             case _QWERTY:
+                layer_effect_hsv(HSV_ORANGE);
                 layer_effect_haptic(DRV2605L_EFFECT_PULSING_SHARP_1_100);
                 break;
 
             case _QWERTY2:
+                layer_effect_hsv(HSV_GOLD);
                 layer_effect_haptic(DRV2605L_EFFECT_SOFT_BUMP_100);
                 break;
 
             case _GAMING:
+                layer_effect_hsv(HSV_TEAL);
                 layer_effect_haptic(DRV2605L_EFFECT_PULSING_SHARP_1_100);
                 break;
 
             case _GAMING_SHORT:
+                layer_effect_hsv(HSV_CHARTREUSE);
                 layer_effect_haptic(DRV2605L_EFFECT_PULSING_SHARP_1_100);
                 break;
 
             case _GAMING2:
             case _GAMING_SHORT2:
+                layer_effect_hsv(HSV_MAGENTA);
                 layer_effect_haptic(DRV2605L_EFFECT_SOFT_BUMP_100);
                 break;
 
             default: // for any other layers, or the default layer
+                layer_effect_hsv(HSV_OFF);
                 break;
         }
     }
@@ -105,9 +122,11 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 }
 #endif
 
+#ifdef  RGBLIGHT_LAYERS
+#error we should not be here
 void keyboard_post_init_user(void){
     rgblight_layers = my_rgb_layers;
 }
-
+#endif
 
 
