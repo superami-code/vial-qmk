@@ -417,6 +417,7 @@ bool oled_task_kb() {
 }
 
 void keyboard_post_init_kb() {
+    keyboard_post_init_user();
     /*
     gpio_set_pin_output(PS2_POWER);
     gpio_write_pin_high(PS2_POWER);
