@@ -122,11 +122,11 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 }
 #endif
 
+void keyboard_post_init_user(void){
 #ifdef  RGBLIGHT_LAYERS
 #error we should not be here
-void keyboard_post_init_user(void){
     rgblight_layers = my_rgb_layers;
-}
 #endif
+}
 
 
