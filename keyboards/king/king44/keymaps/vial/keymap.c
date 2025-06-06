@@ -14,6 +14,14 @@
 #if (defined PS2_MOUSE_SLOW_SCROLL || PS2_MOUSE_ADJUST)
 #include "ps2_mouse.h"
 
+#ifdef PS2_AUTO_MOUSE_LAYER
+#define PS2_MOUSE_LAYER _MOUSE
+
+static uint16_t auto_layer_timer;
+static bool auto_layer_active = true;
+extern int tp_buttons;
+#endif
+
 bool slow_scroll = false;
 float scroll_accumulated_h = 0;
 float scroll_accumulated_v = 0;
@@ -22,10 +30,26 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (keycode == KC_BTN4) {
         slow_scroll = record->event.pressed;
     }
+    if (keycode == KC_BTN5 && record->event.pressed) {
+        auto_layer_active = !auto_layer_active;
+        if (!auto_layer_timer) {
+            layer_off(PS2_MOUSE_LAYER);
+        }
+    }
     return true;
 }
 
 void ps2_mouse_moved_user(report_mouse_t *mouse_report) {
+#ifdef PS2_AUTO_MOUSE_LAYER
+    if (auto_layer_active) {
+        if (auto_layer_timer) {
+            auto_layer_timer = timer_read();
+        } else if (!tp_buttons) {
+            layer_on(PS2_MOUSE_LAYER);
+            auto_layer_timer = timer_read();
+        }
+    }
+#endif
 #if PS2_MOUSE_ADJUST
   // Moving left.
   if (mouse_report->x < 0) {
@@ -60,6 +84,15 @@ void ps2_mouse_moved_user(report_mouse_t *mouse_report) {
         mouse_report->y = 0;
     }
 #endif
+}
+#endif
+
+#ifdef PS2_AUTO_MOUSE_LAYER
+void matrix_scan_user(void){
+    if (auto_layer_timer && (timer_elapsed(auto_layer_timer) > PS2_AUTO_MOUSE_LAYER_TIMEOUT) && !tp_buttons) {
+        layer_off(PS2_MOUSE_LAYER);
+        auto_layer_timer = 0;
+    }
 }
 #endif
 
@@ -134,6 +167,11 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             case _GAMING2:
             case _GAMING_SHORT2:
                 layer_effect_hsv(HSV_MAGENTA);
+                layer_effect_haptic(DRV2605L_EFFECT_SOFT_BUMP_100);
+                break;
+
+            case _MOUSE:
+                layer_effect_hsv(HSV_CORAL);
                 layer_effect_haptic(DRV2605L_EFFECT_SOFT_BUMP_100);
                 break;
 

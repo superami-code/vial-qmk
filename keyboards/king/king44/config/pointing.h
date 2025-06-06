@@ -5,6 +5,9 @@
 #define SCROLL_DIVISOR_H 64.0
 #define SCROLL_DIVISOR_V 64.0
 
+#define PS2_AUTO_MOUSE_LAYER
+#define PS2_AUTO_MOUSE_LAYER_TIMEOUT 750
+
 // The following allows adjusting the mouse pointer speed, if needed
 #define PS2_MOUSE_L_MULTIPLIER 1
 #define PS2_MOUSE_R_MULTIPLIER 2
