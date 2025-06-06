@@ -1,5 +1,7 @@
 VIA_ENABLE = yes
 VIAL_ENABLE = yes
-VIAL_INSECURE = yes
+
+#ONLY enable during testing
+#VIAL_INSECURE = yes
 
 

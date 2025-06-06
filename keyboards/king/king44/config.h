@@ -10,13 +10,16 @@
 #include "./config/haptic.h"
 
 #define DYNAMIC_KEYMAP_LAYER_COUNT 12
-#define DEBOUNCE 5
+#define DEBOUNCE 2  // default is 5
 
 //#define OLED_TIMEOUT 0
 //#define NO_SUSPEND_POWER_DOWN
 #define PERMISSIVE_HOLD
 #define TAPPING_TOGGLE 3
 
+// LUNA is the littly kitty that will run for you.
+// disabling this will keep luna from running, but might slightly improve performance.
+// LUNA is not on any of the gaming layers, so it's only relevant for standard typing
 #define LUNA_ANIMATE
 
 #define DRV2605L_GREETING       DRV2605L_EFFECT_750_MS_ALERT_100

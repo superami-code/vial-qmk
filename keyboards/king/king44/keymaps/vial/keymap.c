@@ -11,10 +11,22 @@
 #include "drivers/haptic/drv2605l.h"
 #endif
 
-#if PS2_MOUSE_ADJUST
+#if (defined PS2_MOUSE_SLOW_SCROLL || PS2_MOUSE_ADJUST)
 #include "ps2_mouse.h"
 
+bool slow_scroll = false;
+float scroll_accumulated_h = 0;
+float scroll_accumulated_v = 0;
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (keycode == KC_BTN4) {
+        slow_scroll = record->event.pressed;
+    }
+    return true;
+}
+
 void ps2_mouse_moved_user(report_mouse_t *mouse_report) {
+#if PS2_MOUSE_ADJUST
   // Moving left.
   if (mouse_report->x < 0) {
     mouse_report->x *= PS2_MOUSE_L_MULTIPLIER;
@@ -27,15 +39,28 @@ void ps2_mouse_moved_user(report_mouse_t *mouse_report) {
   } else {
     mouse_report->y *= PS2_MOUSE_U_MULTIPLIER;
   }
-}
+#endif
+#ifdef PS2_MOUSE_SLOW_SCROLL
+    // If the middle button is down, then reduce X/Y movement
+    if (slow_scroll) {
+        // Calculate and accumulate scroll values based on mouse movement and divisors
+        scroll_accumulated_h += (float)mouse_report->x / SCROLL_DIVISOR_H;
+        scroll_accumulated_v += (float)mouse_report->y / SCROLL_DIVISOR_V;
 
-/*
-void keyboard_pre_init_user(void) {
-  //ps2_mouse_set_sample_rate(PS2_MOUSE_10_SAMPLES_SEC);
-  //ps2_mouse_set_resolution(PS2_MOUSE_8_COUNT_MM);
-  ps2_mouse_set_remote_mode();
+        // Assign integer parts of accumulated scroll values to the mouse report
+        mouse_report->h = (int8_t)scroll_accumulated_h;
+        mouse_report->v = -(int8_t)scroll_accumulated_v;
+
+        // Update accumulated scroll values by subtracting the integer parts
+        scroll_accumulated_h -= (int8_t)scroll_accumulated_h;
+        scroll_accumulated_v -= (int8_t)scroll_accumulated_v;
+
+        // Clear the X and Y values of the mouse report
+        mouse_report->x = 0;
+        mouse_report->y = 0;
+    }
+#endif
 }
-*/
 #endif
 
 #if (defined HSV_WHITE) || (defined HAPTIC_ENABLE)

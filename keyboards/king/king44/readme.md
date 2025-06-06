@@ -21,3 +21,8 @@ Enter the bootloader in 3 ways:
 - **Bootmagic reset**: Hold down the key at (0,0) in the matrix (usually the top left key or Escape) and plug in the keyboard.
 - **Physical reset button**: Briefly press the button on the front of the PCB. Double tap for pro micro, 1 second press for Sea Picro / RP2040s.
 - **Keycode in layout**: Press the key mapped to `QK_BOOT` if it is available.
+
+## Ideas for the Future
+
+- Improve Timings of IR / PT scanning
+- Reduce trackpoint speed while holding middle
