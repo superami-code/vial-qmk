@@ -6,6 +6,23 @@
         "rows": 8,
         "cols": 6
     },
+    "customKeycodes": [
+        {
+            "name": "SlowScroll",
+            "title": "Change pointing to slow scrolling",
+            "shortName": "M_SLS"
+        },
+        {
+            "name": "ToggleAutoMouseLayer",
+            "title": "Toggle Auto Mouse Layer On/Off",
+            "shortName": "MA_TOG"
+        },
+        {
+            "name": "AutoMouseLayerOff",
+            "title": "Turn off the auto mouse layer early",
+            "shortName": "MA_OFF"
+        }
+    ],
     "layouts": {
         "keymap": [
             [

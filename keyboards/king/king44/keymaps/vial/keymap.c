@@ -11,7 +11,13 @@
 #include "drivers/haptic/drv2605l.h"
 #endif
 
-#if (defined PS2_MOUSE_SLOW_SCROLL || PS2_MOUSE_ADJUST)
+enum slow_scroll_keycode {
+    M_SLS = QK_KB_0,
+    MA_TOG,
+    MA_OFF
+};
+
+#if (defined PS2_MOUSE_SLOW_SCROLL || PS2_MOUSE_ADJUST || defined PS2_AUTO_MOUSE_LAYER)
 #include "ps2_mouse.h"
 
 #ifdef PS2_AUTO_MOUSE_LAYER
@@ -28,18 +34,21 @@ float scroll_accumulated_v = 0;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case KC_BTN4:
+        case M_SLS:
             slow_scroll = record->event.pressed;
+
         case KC_BTN1:
         case KC_BTN2:
         case KC_BTN3:
+        case KC_BTN4:
+        case KC_BTN5:
             // Make sure we keep the timer going if we are actively clicking
             if (auto_layer_timer) {
                 auto_layer_timer = timer_read();
             }
             break;
 
-        case KC_BTN5:
+        case MA_TOG:
             if (record->event.pressed) { // TODO make a custom key code for this
                 auto_layer_active = !auto_layer_active;
                 if (!auto_layer_timer) {
@@ -48,6 +57,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
 
+        case MA_OFF:
+            auto_layer_timer = 0;
+            layer_off(PS2_MOUSE_LAYER);
+            break;
 
         default:
             break;
