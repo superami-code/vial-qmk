@@ -27,14 +27,30 @@ float scroll_accumulated_h = 0;
 float scroll_accumulated_v = 0;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (keycode == KC_BTN4) {
-        slow_scroll = record->event.pressed;
-    }
-    if (keycode == KC_BTN5 && record->event.pressed) {
-        auto_layer_active = !auto_layer_active;
-        if (!auto_layer_timer) {
-            layer_off(PS2_MOUSE_LAYER);
-        }
+    switch (keycode) {
+        case KC_BTN4:
+            slow_scroll = record->event.pressed;
+        case KC_BTN1:
+        case KC_BTN2:
+        case KC_BTN3:
+            // Make sure we keep the timer going if we are actively clicking
+            if (auto_layer_timer) {
+                auto_layer_timer = timer_read();
+            }
+            break;
+
+        case KC_BTN5:
+            if (record->event.pressed) { // TODO make a custom key code for this
+                auto_layer_active = !auto_layer_active;
+                if (!auto_layer_timer) {
+                    layer_off(PS2_MOUSE_LAYER);
+                }
+            }
+            break;
+
+
+        default:
+            break;
     }
     return true;
 }
@@ -171,7 +187,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
                 break;
 
             case _MOUSE:
-                layer_effect_hsv(HSV_CORAL);
+                layer_effect_hsv(HSV_SPRINGGREEN);
                 layer_effect_haptic(DRV2605L_EFFECT_SOFT_BUMP_100);
                 break;
 
