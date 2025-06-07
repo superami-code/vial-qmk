@@ -10,7 +10,7 @@
 #include "./config/haptic.h"
 
 #define DYNAMIC_KEYMAP_LAYER_COUNT 12
-#define DEBOUNCE 2  // default is 5
+#define DEBOUNCE 5  // default is 5
 
 //#define OLED_TIMEOUT 0
 //#define NO_SUSPEND_POWER_DOWN
@@ -27,6 +27,6 @@
 
 //#define RGBLIGHT_LAYERS
 #ifdef RGBLIGHT_LAYERS
-#error Why is this on
+#error Why is this on, it's too slow
 #define RGBLIGHT_MAX_LAYERS 10
 #endif
