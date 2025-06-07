@@ -29,6 +29,7 @@ extern int tp_buttons;
 #endif
 
 bool slow_scroll = false;
+uint8_t extend_auto_layer = 0;
 float scroll_accumulated_h = 0;
 float scroll_accumulated_v = 0;
 
@@ -46,6 +47,26 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (auto_layer_timer) {
                 auto_layer_timer = timer_read();
             }
+            // We also want to prevent exiting the layer if one of the mouse keys is still pressed
+            if (record->event.pressed) {
+                extend_auto_layer |= 1 << (
+                    M_SLS ? 5 :
+                    KC_BTN5 ? 4 :
+                    KC_BTN4 ? 3 :
+                    KC_BTN3 ? 2 :
+                    KC_BTN2 ? 1 :
+                    0
+                );
+            } else {
+                extend_auto_layer &= ~(1 << (
+                    M_SLS ? 5 :
+                    KC_BTN5 ? 4 :
+                    KC_BTN4 ? 3 :
+                    KC_BTN3 ? 2 :
+                    KC_BTN2 ? 1 :
+                    0
+                ));
+            }
             break;
 
         case MA_TOG:
@@ -59,6 +80,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
         case MA_OFF:
             auto_layer_timer = 0;
+            extend_auto_layer = 0;
             layer_off(PS2_MOUSE_LAYER);
             break;
 
@@ -118,7 +140,7 @@ void ps2_mouse_moved_user(report_mouse_t *mouse_report) {
 
 #ifdef PS2_AUTO_MOUSE_LAYER
 void matrix_scan_user(void){
-    if (auto_layer_timer && (timer_elapsed(auto_layer_timer) > PS2_AUTO_MOUSE_LAYER_TIMEOUT) && !tp_buttons) {
+    if (auto_layer_timer && !extend_auto_layer && (timer_elapsed(auto_layer_timer) > PS2_AUTO_MOUSE_LAYER_TIMEOUT) && !tp_buttons) {
         layer_off(PS2_MOUSE_LAYER);
         auto_layer_timer = 0;
     }
