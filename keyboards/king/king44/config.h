@@ -14,7 +14,7 @@
 
 //#define OLED_TIMEOUT 0
 //#define NO_SUSPEND_POWER_DOWN
-#define PERMISSIVE_HOLD
+//#define PERMISSIVE_HOLD
 #define TAPPING_TOGGLE 3
 
 // LUNA is the littly kitty that will run for you.
@@ -27,6 +27,6 @@
 
 //#define RGBLIGHT_LAYERS
 #ifdef RGBLIGHT_LAYERS
-#error Why is this on, it's too slow
+#error Why is this on, it is too slow
 #define RGBLIGHT_MAX_LAYERS 10
 #endif
