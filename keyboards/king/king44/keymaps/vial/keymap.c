@@ -72,8 +72,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case MA_TOG:
             if (record->event.pressed) { // TODO make a custom key code for this
                 auto_layer_active = !auto_layer_active;
-                if (!auto_layer_timer) {
+                if (!auto_layer_active) {
+#ifdef PS2_AUTO_MOUSE_LAYER_LED
+                    gpio_write_pin_low(PS2_AUTO_MOUSE_LAYER_LED);
+#endif
                     layer_off(PS2_MOUSE_LAYER);
+#ifdef PS2_AUTO_MOUSE_LAYER_LED
+                } else {
+                    gpio_write_pin_high(PS2_AUTO_MOUSE_LAYER_LED);
+#endif
                 }
             }
             break;
@@ -237,6 +244,14 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 #endif
 
 void keyboard_post_init_user(void){
+#ifdef PS2_AUTO_MOUSE_LAYER_LED
+    gpio_set_pin_output(PS2_AUTO_MOUSE_LAYER_LED);
+    if (auto_layer_active ) {
+        gpio_write_pin_high(PS2_AUTO_MOUSE_LAYER_LED);
+    }else{
+        gpio_write_pin_low(PS2_AUTO_MOUSE_LAYER_LED);
+    }
+#endif
 #ifdef  RGBLIGHT_LAYERS
 #error we should not be here
     rgblight_layers = my_rgb_layers;
