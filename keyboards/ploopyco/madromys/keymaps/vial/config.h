@@ -6,3 +6,10 @@
 
 #define VIAL_UNLOCK_COMBO_ROWS { 0, 0 }
 #define VIAL_UNLOCK_COMBO_COLS { 3, 5 }
+
+#define PLOOPY_DRAGSCROLL_MOMENTARY
+#define PLOOPY_DRAGSCROLL_INVERT
+
+// Activating this will make a gaming layer harder
+//#define POINTING_DEVICE_AUTO_MOUSE_ENABLE
+//#define AUTO_MOUSE_DEFAULT_LAYER 1
