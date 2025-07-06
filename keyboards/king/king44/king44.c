@@ -444,6 +444,7 @@ void keyboard_post_init_kb() {
     rgblight_sethsv(HSV_OFF);
 #endif
 }
+
 void suspend_power_down_user(void) {
     suspend = true;
     /*

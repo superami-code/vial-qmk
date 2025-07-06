@@ -22,9 +22,6 @@
 // LUNA is not on any of the gaming layers, so it's only relevant for standard typing
 #define LUNA_ANIMATE
 
-#define DRV2605L_GREETING       DRV2605L_EFFECT_750_MS_ALERT_100
-#define DRV2605L_DEFAULT_MODE   DRV2605L_EFFECT_SHARP_TICK_1_100
-
 //#define RGBLIGHT_LAYERS
 #ifdef RGBLIGHT_LAYERS
 #error Why is this on, it is too slow
