@@ -31,8 +31,10 @@
 #define SPI_MISO_PIN GP0
 #define SPI_MOSI_PIN GP7
 
-#define PLOOPY_DPI_OPTIONS { 1200, 600 }
+#define PLOOPY_DPI_OPTIONS { 600, 900, 1200 }
 //        { 600, 900, 1200, 1600, 2400 }
-#define PLOOPY_DPI_DEFAULT 0
+#define PLOOPY_DPI_DEFAULT 2
+
+// It's important to note that this divisor will be related to the DPI, and may need adjusting with the default DPI
 #define PLOOPY_DRAGSCROLL_DIVISOR_H 16.0
 #define PLOOPY_DRAGSCROLL_DIVISOR_V 16.0
